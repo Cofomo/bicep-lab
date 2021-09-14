@@ -19,7 +19,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
   }
 }
 
-resource appService 'Microsoft.Web/sites@2020-06-01' = {
+resource webApp 'Microsoft.Web/sites@2020-06-01' = {
   name: 'demo-bicep-webapp' // Nom du app serivce unique global
   location: pLocation
   properties: {

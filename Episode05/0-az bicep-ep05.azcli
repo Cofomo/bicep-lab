@@ -1,0 +1,9 @@
+az account show 
+az logout
+az login 
+
+az account set --subscription $votresubs
+az group list --output table
+
+cd "C:\Repos\runatcloud\bicep-lab\Episode05"
+az deployment group create -f ./1-main-ep05.bicep --resource-group agirard-demobicep-rg
