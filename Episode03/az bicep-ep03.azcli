@@ -1,0 +1,14 @@
+az account show 
+az logout
+az login 
+
+az account set --subscription $votresubs
+az group list --output table
+
+cd "C:\Repos\runatcloud\bicep-lab\Episode03"
+
+az deployment group create -f ./webapp-ep03-01.bicep --resource-group agirard-demobicep-rg
+az deployment group create -f ./webapp-ep03-02.bicep --resource-group agirard-demobicep-rg --parameters pLocation=canadacentral pAppServicename=demo-bicep-appserv
+az deployment group create -f ./webapp-ep03-03.bicep --resource-group agirard-demobicep-rg --parameters pLocation=canadacentral pAppname=demobicep
+az deployment group create -f ./webapp-ep03-04.bicep --resource-group agirard-demobicep-rg --parameters pLocation=canadacentral pAppname=demobicep --confirm-with-what-if
+
