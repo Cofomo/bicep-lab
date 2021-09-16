@@ -1,0 +1,26 @@
+az account show 
+az logout
+az login 
+
+az account set --subscription $votresubs
+az group list --output table
+
+cd "C:\Repos\runatcloud\bicep-lab\Episode06"
+
+
+# paramètres inline
+az deployment group create -f ./webapp-ep06.bicep --resource-group runatcloud-demobicep-rg --parameters pLocation=canadacentral pAppname=demobicep pSkuName=B1 pCapacity=1 pHttpsOnly=true --confirm-with-what-if
+
+
+# paramètres passés par un fichier de paramètres
+az deployment group create -f ./webapp-ep06.bicep --resource-group runatcloud-demobicep-rg --parameters @webapp-ep06.parameters.json --confirm-with-what-if
+
+
+# fichier de paramètres avec valeur invalide
+az deployment group create -f ./webapp-ep06.bicep --resource-group runatcloud-demobicep-rg --parameters @webapp-ep06-invalide.parameters.json --confirm-with-what-if
+
+
+# paramètres depuis plusieurs sources
+az deployment group create -f ./webapp-ep06.bicep --resource-group runatcloud-demobicep-rg --parameters @webapp-ep06.parameters.json --parameters pLocation=canadaeast --confirm-with-what-if
+
+az deployment group create -f ./webapp-ep06.bicep --resource-group runatcloud-demobicep-rg --parameters pLocation=canadaeast --parameters @webapp-ep06.parameters.json --confirm-with-what-if

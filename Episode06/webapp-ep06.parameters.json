@@ -1,0 +1,19 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "pLocation": {
+        "value": "canadacentral" // valeur valide
+      },
+      // la valeur par défaut de 'pAppname' sera utilisée
+      "pSkuName":{
+          "value": "B1"
+      },
+      "pCapacity": {
+          "value": 1 // c'est un entier
+      },
+      "pHttpsOnly":{
+          "value": true // c'est un booléen
+      }
+    }
+}  
