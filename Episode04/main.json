@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.613.9944",
+      "templateHash": "000000000000000000000"
+    }
+  },
+  "parameters": {
+    "region": {
+      "type": "string",
+      "defaultValue": "canadacentral"
+    },
+    "nomProjet": {
+      "type": "string",
+      "maxLength": 17,
+      "minLength": 3
+    }
+  },
+  "functions": [],
+  "variables": {
+    "stAccName": "[format('{0}store', parameters('nomProjet'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2021-04-01",
+      "name": "[variables('stAccName')]",
+      "location": "[parameters('region')]",
+      "kind": "StorageV2",
+      "sku": {
+        "name": "Standard_LRS"
+      }
+    }
+  ],
+  "outputs": {
+    "stgConnStr": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('stAccName'))).primaryEndpoints.web]"
+    },
+    "blobStorageConnectionString": {
+      "type": "string",
+      "value": "[format('DefaultEndpointsProtocol=https;AccountName={0};EndpointSuffix={1};AccountKey={2}', variables('stAccName'), environment().suffixes.storage, listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('stAccName')), '2021-04-01').keys[0].value)]"
+    }
+  }
+}
