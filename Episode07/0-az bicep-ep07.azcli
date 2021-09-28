@@ -1,0 +1,29 @@
+az account show 
+az logout
+az login 
+
+az account set --subscription $votresubs
+az group list --output table
+
+cd "C:\Repos\runatcloud\bicep-lab\Episode07"
+
+az deployment sub create -f ./1-main-ep07-01.bicep --location canadacentral --confirm-with-what-if
+az deployment sub create -f ./1-main-ep07-01.bicep --location canadacentral --parameters deployerRG=true 
+
+az deployment sub create -f ./1-main-ep07-02.bicep --location canadacentral
+az deployment sub create -f ./1-main-ep07-02.bicep --location canadacentral --parameters resourceGroupsName='runatcloud-demobicep04-rg'
+
+az deployment sub create -f ./1-main-ep07-03.bicep --location canadacentral --parameters resourceGroupsName='runatcloud-demobicep04-rg' environnement='dev' --confirm-with-what-if
+az deployment sub create -f ./1-main-ep07-03.bicep --location canadacentral --parameters resourceGroupsName='runatcloud-demobicep04-rg' environnement='prod' --confirm-with-what-if
+
+az deployment sub create -f ./1-main-ep07-04.bicep --location canadacentral --parameters @1-main-ep07-04.parameters.json --confirm-with-what-if
+
+az deployment sub create -f ./1-main-ep07-05.bicep --location canadacentral --parameters resourceGroupsName='runatcloud-demobicep-rg' --confirm-with-what-if
+
+az deployment group create -f ./1-main-ep07-06.bicep --resource-group runatcloud-demobicep01-rg --confirm-with-what-if
+az deployment sub create -f ./1-main-ep07-07.bicep --location canadacentral --confirm-with-what-if
+
+az deployment group create -f ./1-main-ep07-08.bicep --resource-group runatcloud-demobicep01-rg --confirm-with-what-if
+
+az deployment group create -f ./1-main-ep07-09.bicep --resource-group runatcloud-demobicep01-rg --confirm-with-what-if
+az deployment group create -f ./1-main-ep07-10.bicep --resource-group runatcloud-demobicep01-rg --confirm-with-what-if
