@@ -1,0 +1,57 @@
+az account show 
+az logout
+az login 
+
+az account set --subscription $votresubs
+az group list --output table
+
+
+# description demo
+clear
+az deployment group create -f ./ep9_bicepDecorators.bicep -g toto-rg 
+
+
+# allowed demo
+clear
+az deployment group create -f ./ep9_bicepDecorators.bicep -g toto-rg  `
+        --parameters location=canadacentral environmentType=staging resourceNameSuffix=abc quantiteRam=12 sqlAdminPassword=P@$$w0rd1!
+
+
+# minLength demo
+clear
+az deployment group create -f ./ep9_bicepDecorators.bicep -g toto-rg  `
+        --parameters location=canadacentral environmentType=dev resourceNameSuffix=ab quantiteRam=12 sqlAdminPassword=P@$$w0rd1!
+
+# maxLength demo
+clear
+az deployment group create -f ./ep9_bicepDecorators.bicep -g toto-rg  `
+        --parameters location=canadacentral environmentType=dev resourceNameSuffix=abcdefghijklmn quantiteRam=12 sqlAdminPassword=P@$$w0rd1!
+
+
+# minValue demo
+clear
+az deployment group create -f ./ep9_bicepDecorators.bicep -g toto-rg  `
+        --parameters location=canadacentral environmentType=dev resourceNameSuffix=abcd quantiteRam=2 sqlAdminPassword=P@$$w0rd1!
+
+
+# maxValue demo
+clear
+az deployment group create -f ./ep9_bicepDecorators.bicep -g toto-rg  `
+        --parameters location=canadacentral environmentType=dev resourceNameSuffix=abcd quantiteRam=42 sqlAdminPassword=P@$$w0rd1!
+
+
+# secure demo 1
+clear
+az deployment group create -f ./ep9_bicepDecorators.bicep -g toto-rg  `
+        --parameters location=canadacentral environmentType=dev resourceNameSuffix=abcd quantiteRam=16 sqlAdminPassword=P@$$w0rd1!
+
+
+# secure demo 2 (remarquez que la valeur saisie dans la console ne s'affiche pas)
+clear
+az deployment group create -f ./ep9_bicepDecorators.bicep -g toto-rg  `
+        --parameters location=canadacentral environmentType=dev resourceNameSuffix=abcd quantiteRam=16
+
+
+# batchSize demo
+clear
+az deployment group create -f ./ep9_batchSizeDecorator.bicep -g toto-rg
