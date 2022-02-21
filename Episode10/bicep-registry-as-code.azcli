@@ -1,0 +1,52 @@
+
+
+#################################################################################################
+#################        Créer l'ACR qui servira de registre Bicep              #################
+#################################################################################################
+$rgName='runatcloud-rg'
+$registryName='runatcloudcr'
+az group create --name $rgName --location canadacentral
+az acr create --resource-group $rgName --name $registryName --sku Basic --admin-enabled
+# il faut activer le admin pour récupérer les credentials. 
+# une autre approche consiste à activer l'admin, obtenir les creds, puis à désactiver l'admin.
+
+
+
+#################################################################################################
+#################            Contrôler l'accès à l'ACR                          #################
+#################################################################################################
+# Obtenir le nom du loginServer
+$loginServerName = az acr show --name $registryName --query loginServer
+
+# Se connecter à ACR
+$acrUsername = az acr credential show --name $registryName -o tsv --query username
+$acrPassword = az acr credential show --name $registryName -o tsv --query passwords[0].value
+az acr login --name $registryName --username $acrUsername --password $acrPassword
+
+
+
+#################################################################################################
+#################            Mettre à jour le Bicep CLI                         #################
+#################################################################################################
+az bicep upgrade
+
+
+
+#################################################################################################
+#################            Publier le module dans le registre ACR             #################
+#################################################################################################
+az bicep publish --file .\appsvcplanmodule.bicep --target br:runatcloudcr.azurecr.io/bicep/modules/appsvcplan:v1
+
+# "bicep/modules" est le chemin dans le registre où sera publié le module
+# "appsvcplan" est le nom qu'aura le module une fois publié sur le registre
+# "v1" représente le numéro de version du module
+# le numéro de version est très utile car si on déploie une nouvelle version de notre module, le code qui utilise la version actuelle ne sera pas impacté sauf si on met à jour le numéro de version dans la référence.
+
+# Bicep publish va compiler le module et le publier sur le registre spécifié
+
+
+
+#################################################################################################
+#################            Publier le module dans le registre ACR             #################
+#################################################################################################
+# voir le code de 'webapp.bicep'
